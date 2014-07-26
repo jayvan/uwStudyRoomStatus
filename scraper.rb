@@ -107,10 +107,10 @@ def condense_blocks
   @rooms.each do |room_id, room|
     blocks = []
     start_time = room[:bookings][0]
-    start_index = 0
+    bookings_in_block = 1
 
     room[:bookings][1..-1].each.with_index(1) do |booking, index|
-      if booking != start_time + 30 * 60 * (index - start_index) then
+      if booking != start_time + 30 * 60 * bookings_in_block then
         end_time = room[:bookings][index - 1] + 30 * 60
 
         blocks << {
@@ -119,6 +119,9 @@ def condense_blocks
         }
 
         start_time = booking
+        bookings_in_block = 1
+      else
+        bookings_in_block += 1
       end
     end
 
