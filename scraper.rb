@@ -40,7 +40,7 @@ def fetch_area(date, area)
   # Get the names & capacities of study rooms in this area
   header.each do |room_el|
     # The room name is the first span in the header
-    room_names << room_el.children[0].text
+    room_names << room_el.children[0].text.strip
 
     # The capacity is the second span, it follows 'Capacity: '
     room_capacities << room_el.children[1].text[10..-1].to_i
