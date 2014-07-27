@@ -1,5 +1,6 @@
 require 'json/ext'
 require 'mongo'
+require 'newrelic_rpm'
 require 'sinatra'
 
 include Mongo
