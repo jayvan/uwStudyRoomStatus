@@ -14,9 +14,11 @@ include Mongo
 
 # The list of areas that we want availability data for.
 # Currently the Cambridge campus is ommitted.
-AREAS = [2, # DC - Group Study
-         8, # DP - Group Study
-         7] # DC - Single Study
+AREAS = {
+  2 => 'DC',
+  7 => 'DC',
+  8 => 'DP'
+}
 
 @rooms = {}
 
@@ -74,7 +76,8 @@ def fetch_area(date, area)
         :bookings => [],
         :capacity => room_capacities[i],
         :id => id,
-        :name => room_names[i]
+        :name => room_names[i],
+        :location => AREAS[area]
       }
     end
   end
@@ -89,7 +92,7 @@ def fetch_area(date, area)
 end
 
 def fetch_date(date)
-  AREAS.each do |area_id|
+  AREAS.keys.each do |area_id|
     fetch_area(date, area_id)
   end
 end
@@ -115,6 +118,7 @@ def condense_blocks
 
         blocks << {
           :start => start_time,
+          :end => end_time,
           :duration => (end_time - start_time) / 60
         }
 
@@ -125,9 +129,12 @@ def condense_blocks
       end
     end
 
+    end_time = room[:bookings][-1] + 30 * 60
+
     blocks << {
       :start => start_time,
-      :duration => (room[:bookings][-1] + 30 * 60 - start_time) / 60
+      :end => end_time,
+      :duration => (end_time - start_time) / 60
     }
 
     room[:bookings] = blocks
