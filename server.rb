@@ -2,10 +2,13 @@ require 'json/ext'
 require 'mongo'
 require 'newrelic_rpm'
 require 'sinatra'
+require 'sinatra/cross_origin'
 
 include Mongo
 
 configure do
+  enable :cross_origin
+
   db = MongoClient.new(ENV['MONGO_HOST'], ENV['MONGO_PORT']).db(ENV['MONGO_DB'])
   auth = db.authenticate(ENV['MONGO_USER'], ENV['MONGO_PASS'])
 

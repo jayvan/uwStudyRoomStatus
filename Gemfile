@@ -5,3 +5,4 @@ gem 'mongo'
 gem 'nokogiri'
 gem 'newrelic_rpm'
 gem 'sinatra'
+gem "sinatra-cross_origin"
