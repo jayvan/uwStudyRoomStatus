@@ -9,6 +9,7 @@ require 'cgi'
 require 'mongo'
 require 'nokogiri'
 require 'open-uri'
+require 'time'
 
 include Mongo
 
@@ -117,8 +118,8 @@ def condense_blocks
         end_time = room[:bookings][index - 1] + 30 * 60
 
         blocks << {
-          :start => start_time,
-          :end => end_time,
+          :start => start_time.iso8601,
+          :end => end_time.iso8601,
           :duration => (end_time - start_time) / 60
         }
 
@@ -132,8 +133,8 @@ def condense_blocks
     end_time = room[:bookings][-1] + 30 * 60
 
     blocks << {
-      :start => start_time,
-      :end => end_time,
+      :start => start_time.iso8601,
+      :end => end_time.iso8601,
       :duration => (end_time - start_time) / 60
     }
 
